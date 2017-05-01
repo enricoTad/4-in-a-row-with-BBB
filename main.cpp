@@ -77,6 +77,8 @@ int main ( )
 	// Variablen
 	int aktuellerSpieler = 0;
 	int spielstand = 0;
+	int a = 0; //gibt Tasten erst dann frei wenn sich ein Chip im Fach befindet
+	
 
 	// *************** INITIALISIERUNG **************
 	// Auf Quittierung warten
@@ -145,6 +147,7 @@ int main ( )
 				usleep(50000);	//TODO: Zeit bestimmen
 				weissenSteinHolen.SetValue(0);
 				cout << "Stein von Spieler1 holen" << endl;
+				a = 1;
 			}
 			if ( aktuellerSpieler == 2 )
 			{
@@ -152,10 +155,11 @@ int main ( )
 				usleep(50000);	//TODO: Zeit bestimmen
 				schwarzenSteinHolen.SetValue(0);
 				cout << "Stein von Spieler2 holen" << endl;
+				a = 1;
 			}
 
 			// Spieler f�hrt Spalte an
-			while ( TasterSpielsteinAbwerfen.getValue() == 0 )		// Bis Spieler abwerfen drueckt
+			while ( a == 1)		// Bis Spieler abwerfen drueckt
 			{
 				if ( TasterRechts.getValue( ) == 1 )
 				{
@@ -169,8 +173,13 @@ int main ( )
 					usleep(500000);
 					cout << "Fahre Raste nach links" << endl;
 				}
+				if (TasterSpielsteinAbwerfen.getValue() == 1 && spiel.abwurfMoeglich(motor.getRaste(), 0 ) == 1)
+				{
+					a = 0;
+				}
 			}
 			cout << "Spieler hat Abwerfen gedrückt" << endl;
+			
 
 			// Spieler setzt Stein in Spalte ab
 			spielstand = spiel.zug(aktuellerSpieler, motor.getRaste( ));
@@ -238,7 +247,7 @@ int main ( )
 	anlageEin.SetValue(0);		// Wenn beendet wird, Lampe am Taster Start wieder ausschalten
 	ledSpieler1.SetValue(0);	// LED Baender wieder ausschalten
 	ledSpieler2.SetValue(0);
-//	shutdown( );				// Linux definiert herunterfahren und BeagleBone abschalten
+	shutdown( );				// Linux definiert herunterfahren und BeagleBone abschalten
 		
 	return 0;
 }

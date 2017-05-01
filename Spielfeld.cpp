@@ -185,7 +185,7 @@ int Spielfeld::checkDiagonal(unsigned int* Spielertoken)
     }
 
     //Richtung rechts unten
-    for (iZeilernnr=3; iZeilernnr<5; iZeilernnr++)
+    for (iZeilernnr=3; iZeilernnr<6; iZeilernnr++)
     {
         for (iSpaltennr=0; iSpaltennr<4; iSpaltennr++)
         {
